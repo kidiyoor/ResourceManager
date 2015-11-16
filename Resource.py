@@ -9,7 +9,7 @@ class Resource:
 		self.processes = []
 
 	def score(self):
-		out = self.fcpu/self.cpu * self.fmem/self.mem
+		out = float(self.fcpu)/self.cpu * float(self.fmem)/self.mem
 		return out
 
 	def allocate(self, process):

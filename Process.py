@@ -7,7 +7,12 @@ class Process:
 
 	def details(self):
 		print('''
-pid = %s,	cpu = %s,	mem = %s,	st = %s
+--- PROCESS DETAILS ---
+pid = %s
+cpu = %s	
+mem = %s
+st = %s
+-----------------------
 			''')%(self.pid, self.cpu, self.mem, self.st)
 
 

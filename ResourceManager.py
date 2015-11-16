@@ -1,3 +1,4 @@
+import time
 from Resource import *
 from Process import *
 import random
@@ -42,24 +43,27 @@ def newProcess():
 	PID = PID + 1
 	st = 5 # from random exonential distribution
 	nTypes = len(PTYPE['type'])
-	n = random.randomint(1, nTypes) #random number to select type of process
+	n = random.randint(0, nTypes-1) #random number to select type of process
 	cpu = PTYPE['type'][n]["cpu"]
 	mem = PTYPE['type'][n]["mem"]
 	WAITINGQ.append(Process(pid, cpu, mem, st))
 
 
 
-def status():
-	pass
-
 def startService():
 	#loop till WAINTINGQ is empty
 	#remove expired process
-	for i in range(len(WAITINGQ)):
-		WAITINGQ[i].details()
-		sresource = selectResource(WAITINGQ[i])
-		RESOURCES[sresource].allocate(WAITINGQ[i])
-		ACTIVEQ.append(WAITINGQ[i])
+	for j in range(len(WAITINGQ)):
+		details()
+		WAITINGQ[j].details()
+		sresource = selectResource(WAITINGQ[j])
+		if(sresource != -1):
+			RESOURCES[sresource].allocate(WAITINGQ[j])
+		else:
+			print("skip")
+		ACTIVEQ.append(WAITINGQ[j])
+		time.sleep(4)
+
 
 
 
@@ -69,13 +73,38 @@ def selectResource(process):
 	candidates = []
 	for i in range(len(RESOURCES)):
 		if (RESOURCES[i].assignable(process)):
-			candidates.append(RESOURCES[i])
+			candidates.append([RESOURCES[i],i])
+
+	if len(candidates) == 0:
+		print("no candidates resources")
 
 	maxscore = 0
 	out = -1
 
-	for i in range(len(RESOURCES)):
-		if RESOURCES[i].score() > maxscore :
-			maxscore = RESOURCES[i].score
-			out = i
+	for i in range(len(candidates)):
+		if candidates[i][0].score() > maxscore :
+			maxscore = candidates[i][0].score()
+			out = candidates[i][1]
+	print("Selected : " + str(out))
 	return out
+
+
+def details():
+	print("--- CLUSTER STATUS ---")
+	s = 'NAME :\t'
+	
+	for i in RESOURCES:
+		s = s + i.name + '\t\t'
+	print(s + '\n')
+	
+	s = 'FCPU :\t'
+	for i in RESOURCES:
+		s = s + str(i.fcpu) + '\t\t'
+	print(s + '\n')
+	
+	s ='FMEM :\t'
+	for i in RESOURCES:
+		s = s + str(i.fmem) + '\t\t'
+	print(s + '\n')
+
+	print("-----------------")
