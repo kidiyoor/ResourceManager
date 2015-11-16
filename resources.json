@@ -1,0 +1,29 @@
+{
+	"resources": 
+
+		[
+				
+				{
+					"id" : 1,
+					"name" : "autobot",
+					"cpu" : 4,
+					"mem" : 8
+				},
+				
+				
+				{
+					"id" : 2,
+					"name" : "prime",
+					"cpu" : 2,
+					"mem" : 4
+				},
+				
+				
+				{
+					"id" : 3,
+					"name" : "bumblebee",
+					"cpu" : 8,
+					"mem" : 16
+				}
+		]
+}
