@@ -7,6 +7,7 @@ PID = 1
 WAITINGQ = []
 RESOURCES = []
 ACTIVEQ = []
+TIME = 0
 
 PTYPE = {
 	"type" : 
@@ -41,28 +42,55 @@ def newProcess():
 	global PID
 	pid = PID
 	PID = PID + 1
-	st = 5 # from random exonential distribution
+	serviceTime = 40 #TODO # from random exonential distribution
 	nTypes = len(PTYPE['type'])
-	n = random.randint(0, nTypes-1) #random number to select type of process
+	n = random.randint(0, nTypes-1) #TODO#random number to select type of process
 	cpu = PTYPE['type'][n]["cpu"]
 	mem = PTYPE['type'][n]["mem"]
-	WAITINGQ.append(Process(pid, cpu, mem, st))
+	WAITINGQ.append(Process(pid, cpu, mem, serviceTime))
 
 
 
 def startService():
-	#loop till WAINTINGQ is empty
-	#remove expired process
-	for j in range(len(WAITINGQ)):
+	global TIME
+	global RESOURCES
+	global WAITINGQ
+
+	j=0
+	while(len(WAITINGQ)!=0):
+	#for j in range(len(WAITINGQ)):
+		print("-----------------------------------------------------------------------------")
+		print("TIME : " + str(TIME))
+		TIME = TIME + 1
+		#remove process after service time
+		for res in RESOURCES:
+			#update running time of processes
+			res.update()
+			#remove dead processes
+			res.flush()
+			
+
+		#prints details of cluster
 		details()
+		#prints details of process
 		WAITINGQ[j].details()
+		#select resource to allocate this process
 		sresource = selectResource(WAITINGQ[j])
 		if(sresource != -1):
 			RESOURCES[sresource].allocate(WAITINGQ[j])
+			#remove process from WAITINGQ
+			WAITINGQ = WAITINGQ[:j] + WAITINGQ[(j+1):]			
+			
+			#to give priotity to already waiting process
+			if j!=0:
+				j=0
 		else:
-			print("skip")
-		ACTIVEQ.append(WAITINGQ[j])
-		time.sleep(4)
+			print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$skip\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$skip")
+			#to give priotity to already waiting process
+			j=j+1
+
+		print("No of procces in waiting Queue : " + str(len(WAITINGQ)))
+		print("-----------------------------------------------------------------------------")
 
 
 
@@ -105,6 +133,11 @@ def details():
 	s ='FMEM :\t'
 	for i in RESOURCES:
 		s = s + str(i.fmem) + '\t\t'
+	print(s + '\n')
+
+	s ='SCORE :\t'
+	for i in RESOURCES:
+		s = s + str(i.score()) + '\t\t'
 	print(s + '\n')
 
 	print("-----------------")

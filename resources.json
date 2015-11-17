@@ -5,7 +5,7 @@
 				
 				{
 					"id" : 1,
-					"name" : "autobot",
+					"name" : "Ultron",
 					"cpu" : 4,
 					"mem" : 8
 				},
@@ -13,7 +13,7 @@
 				
 				{
 					"id" : 2,
-					"name" : "prime",
+					"name" : "Optimus",
 					"cpu" : 2,
 					"mem" : 4
 				},
@@ -21,7 +21,7 @@
 				
 				{
 					"id" : 3,
-					"name" : "bumblebee",
+					"name" : "Bumblebee",
 					"cpu" : 8,
 					"mem" : 16
 				}

@@ -1,3 +1,5 @@
+import ResourceManager
+
 class Resource:
 	def __init__(self, id, name, cpu, mem):
 		self.id = id
@@ -25,3 +27,31 @@ class Resource:
 			return True
 		else:
 			return False
+
+	def update(self):
+		for i in range(len(self.processes)):
+			self.processes[i].runningTime = self.processes[i].runningTime + 1
+
+	def flush(self):
+		'''		i = 0
+		for p in self.processes:
+			#print("rt : " + str(self.processes[i].runningTime) + "	st : " + str(self.processes[i].serviceTime) )
+			if self.processes[i].runningTime >= self.processes[i].serviceTime :
+				temp = self.processes[i]
+				self.processes = self.processes[:i] + self.processes[(i+1):]
+				self.fcpu = self.fcpu + temp.cpu
+				self.fmem = self.fmem + temp.mem
+			else:
+				i = i + 1
+		'''
+		t = []
+		for i in range(len(self.processes)):
+			print("server : "+ self.name + "	rt : " + str(self.processes[i].runningTime) + "	st : " + str(self.processes[i].serviceTime) )
+			if self.processes[i].runningTime >= self.processes[i].serviceTime :
+				temp = self.processes[i]
+				t.append(self.processes[i])
+				self.fcpu = self.fcpu + temp.cpu
+				self.fmem = self.fmem + temp.mem
+		
+		for i in range(len(t)):
+			self.processes.remove(t[i])

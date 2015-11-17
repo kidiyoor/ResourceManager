@@ -3,7 +3,9 @@ class Process:
 		self.pid = pid
 		self.cpu = cpu
 		self.mem = mem
-		self.st = st
+		self.serviceTime = st
+		self.waitingTime = 0
+		self.runningTime = 0
 
 	def details(self):
 		print('''
@@ -13,7 +15,7 @@ cpu = %s
 mem = %s
 st = %s
 -----------------------
-			''')%(self.pid, self.cpu, self.mem, self.st)
+			''')%(self.pid, self.cpu, self.mem, self.serviceTime)
 
 
 
