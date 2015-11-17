@@ -77,7 +77,7 @@ def startService():
 		#select resource to allocate this process
 		sresource = selectResource(WAITINGQ[j])
 		if(sresource != -1):
-			RESOURCES[sresource].allocate(WAITINGQ[j])
+			RESOURCES[sresource].allocate(copyProcess(WAITINGQ[j]))
 			#remove process from WAITINGQ
 			WAITINGQ = WAITINGQ[:j] + WAITINGQ[(j+1):]			
 			
@@ -115,6 +115,15 @@ def selectResource(process):
 			out = candidates[i][1]
 	print("Selected : " + str(out))
 	return out
+
+
+def copyProcess(p):
+	out = Process(p.pid, p.cpu, p.mem, p.serviceTime)
+	out.runningTime = p.runningTime
+	out.serviceTime = p.serviceTime
+	out.waitingTime = p.waitingTime
+	
+	return out 
 
 
 def details():

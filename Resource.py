@@ -14,11 +14,11 @@ class Resource:
 		out = float(self.fcpu)/self.cpu * float(self.fmem)/self.mem
 		return out
 
-	def allocate(self, process):
-		if(self.assignable(process)):
-			self.fcpu = self.cpu - process.cpu
-			self.fmem = self.mem - process.mem
-			self.processes.append(process)
+	def allocate(self, p):
+		if(self.assignable(p)):
+			self.fcpu = self.cpu - p.cpu
+			self.fmem = self.mem - p.mem
+			self.processes.append(p)
 		else:
 			print("cant assign") #remove
 
@@ -46,7 +46,6 @@ class Resource:
 		'''
 		t = []
 		for i in range(len(self.processes)):
-			print("server : "+ self.name + "	rt : " + str(self.processes[i].runningTime) + "	st : " + str(self.processes[i].serviceTime) )
 			if self.processes[i].runningTime >= self.processes[i].serviceTime :
 				temp = self.processes[i]
 				t.append(self.processes[i])
