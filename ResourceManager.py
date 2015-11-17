@@ -45,8 +45,8 @@ def newProcess():
 	serviceTime = 40 #TODO # from random exonential distribution
 	nTypes = len(PTYPE['type'])
 	n = random.randint(0, nTypes-1) #TODO#random number to select type of process
-	cpu = PTYPE['type'][n]["cpu"]
-	mem = PTYPE['type'][n]["mem"]
+	cpu = PTYPE['type'][0]["cpu"]
+	mem = PTYPE['type'][0]["mem"]
 	WAITINGQ.append(Process(pid, cpu, mem, serviceTime))
 
 
@@ -57,7 +57,7 @@ def startService():
 	global WAITINGQ
 
 	j=0
-	while(len(WAITINGQ)!=0):
+	while(len(WAITINGQ)!=0 and j < len(WAITINGQ)):
 	#for j in range(len(WAITINGQ)):
 		print("-----------------------------------------------------------------------------")
 		print("TIME : " + str(TIME))
@@ -85,7 +85,7 @@ def startService():
 			if j!=0:
 				j=0
 		else:
-			print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$skip\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$skip")
+			print("Skip")
 			#to give priotity to already waiting process
 			j=j+1
 
@@ -98,6 +98,8 @@ def startService():
 
 #returns -1 if resource not available or the resource number to which process need to be assigned
 def selectResource(process):
+	global RESOURCES
+
 	candidates = []
 	for i in range(len(RESOURCES)):
 		if (RESOURCES[i].assignable(process)):
@@ -127,6 +129,8 @@ def copyProcess(p):
 
 
 def details():
+	global RESOURCES
+
 	print("--- CLUSTER STATUS ---")
 	s = 'NAME :\t'
 	

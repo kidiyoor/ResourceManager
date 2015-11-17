@@ -1,8 +1,8 @@
 import ResourceManager
 
 class Resource:
-	def __init__(self, id, name, cpu, mem):
-		self.id = id
+	def __init__(self, idn, name, cpu, mem):
+		self.id = idn
 		self.name = name
 		self.cpu = cpu
 		self.mem = mem
@@ -16,8 +16,8 @@ class Resource:
 
 	def allocate(self, p):
 		if(self.assignable(p)):
-			self.fcpu = self.cpu - p.cpu
-			self.fmem = self.mem - p.mem
+			self.fcpu = self.fcpu - p.cpu
+			self.fmem = self.fmem - p.mem
 			self.processes.append(p)
 		else:
 			print("cant assign") #remove
