@@ -42,11 +42,11 @@ def newProcess():
 	global PID
 	pid = PID
 	PID = PID + 1
-	serviceTime = 40 #TODO # from random exonential distribution
+	serviceTime = 3 #TODO # from random exonential distribution
 	nTypes = len(PTYPE['type'])
 	n = random.randint(0, nTypes-1) #TODO#random number to select type of process
-	cpu = PTYPE['type'][0]["cpu"]
-	mem = PTYPE['type'][0]["mem"]
+	cpu = PTYPE['type'][n]["cpu"]
+	mem = PTYPE['type'][n]["mem"]
 	WAITINGQ.append(Process(pid, cpu, mem, serviceTime))
 
 
