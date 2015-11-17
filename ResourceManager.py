@@ -63,11 +63,11 @@ def startService():
 		print("TIME : " + str(TIME))
 		TIME = TIME + 1
 		#remove process after service time
-		for res in RESOURCES:
+		for i in range(len(RESOURCES)):
 			#update running time of processes
-			res.update()
+			RESOURCES[i].update()
 			#remove dead processes
-			res.flush()
+			RESOURCES[i].flush()
 			
 
 		#prints details of cluster
@@ -122,7 +122,7 @@ def copyProcess(p):
 	out.runningTime = p.runningTime
 	out.serviceTime = p.serviceTime
 	out.waitingTime = p.waitingTime
-	
+
 	return out 
 
 
